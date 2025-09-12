@@ -4,9 +4,8 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import GameCard from "@/components/GameCard";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { MadeWithDyad } from "@/components/made-with-dyad";
-import { cn } from "@/lib/utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const allGames = [
   {
@@ -15,6 +14,7 @@ const allGames = [
     price: 29.99,
     imageUrl: "https://placehold.co/400x400/6366f1/white?text=Cybernetic",
     category: "Action",
+    rating: 4.5,
   },
   {
     title: "Mystic Forest",
@@ -22,6 +22,7 @@ const allGames = [
     price: 19.99,
     imageUrl: "https://placehold.co/400x400/10b981/white?text=Mystic",
     category: "Adventure",
+    rating: 4.8,
   },
   {
     title: "Galaxy Racers",
@@ -29,6 +30,7 @@ const allGames = [
     price: 0,
     imageUrl: "https://placehold.co/400x400/f97316/white?text=Galaxy",
     category: "Racing",
+    rating: 4.2,
   },
   {
     title: "Dungeon Depths",
@@ -36,6 +38,7 @@ const allGames = [
     price: 9.99,
     imageUrl: "https://placehold.co/400x400/be123c/white?text=Dungeon",
     category: "Role-Playing",
+    rating: 4.6,
   },
   {
     title: "Space Frontiers",
@@ -43,6 +46,7 @@ const allGames = [
     price: 24.99,
     imageUrl: "https://placehold.co/400x400/14b8a6/white?text=Space",
     category: "Adventure",
+    rating: 4.3,
   },
   {
     title: "Realm of Shadows",
@@ -50,6 +54,7 @@ const allGames = [
     price: 14.99,
     imageUrl: "https://placehold.co/400x400/4f46e5/white?text=Realm",
     category: "Action",
+    rating: 4.9,
   },
   {
     title: "Solitaire Saga",
@@ -57,6 +62,7 @@ const allGames = [
     price: 0,
     imageUrl: "https://placehold.co/400x400/3b82f6/white?text=Solitaire",
     category: "Card",
+    rating: 4.7,
   },
   {
     title: "Gridiron Glory",
@@ -64,81 +70,87 @@ const allGames = [
     price: 39.99,
     imageUrl: "https://placehold.co/400x400/16a34a/white?text=Gridiron",
     category: "Sports",
+    rating: 4.1,
   },
 ];
 
 const categories = [
-  "All",
   "Action",
   "Adventure",
   "Role-Playing",
   "Sports",
   "Racing",
   "Card",
-  "Board",
-  "Kids",
 ];
 
 const Browse = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const filteredGames = allGames
-    .filter((game) =>
-      selectedCategory === "All" ? true : game.category === selectedCategory
-    )
-    .filter((game) =>
-      game.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const filteredGames = (category?: string) =>
+    allGames
+      .filter((game) => (category ? game.category === category : true))
+      .filter((game) =>
+        game.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+  const topRatedGames = [...allGames].sort((a, b) => (b.rating || 0) - (a.rating || 0));
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center text-center mb-12">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                Browse Games
-              </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl mt-4">
-                Find your next favorite game from our collection.
-              </p>
-              <div className="w-full max-w-md mt-6">
-                <Input
-                  type="text"
-                  placeholder="Search for a game..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full"
-                />
-              </div>
-            </div>
-            <div className="flex justify-center flex-wrap gap-2 mb-8">
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  onClick={() => setSelectedCategory(category)}
-                  className="rounded-full"
-                >
-                  {category}
-                </Button>
+      <main className="flex-1 container py-8">
+        <div className="flex flex-col items-center text-center mb-8">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+            Browse Games
+          </h1>
+          <p className="max-w-[600px] text-muted-foreground md:text-xl mt-4">
+            Find your next favorite game from our collection.
+          </p>
+          <div className="w-full max-w-md mt-6">
+            <Input
+              type="text"
+              placeholder="Search for a game..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full"
+            />
+          </div>
+        </div>
+
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="all">For you</TabsTrigger>
+            <TabsTrigger value="top">Top charts</TabsTrigger>
+            <TabsTrigger value="new">New</TabsTrigger>
+            <TabsTrigger value="categories">Categories</TabsTrigger>
+          </TabsList>
+          <TabsContent value="all" className="py-6">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+              {filteredGames().map((game) => (
+                <GameCard key={game.title} game={game} />
               ))}
             </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {filteredGames.length > 0 ? (
-                filteredGames.map((game) => (
-                  <GameCard key={game.title} game={game} />
-                ))
-              ) : (
-                <p className="col-span-full text-center text-muted-foreground">
-                  No games found matching your search.
-                </p>
-              )}
+          </TabsContent>
+          <TabsContent value="top" className="py-6">
+             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+              {topRatedGames.slice(0, 10).map((game) => (
+                <GameCard key={game.title} game={game} />
+              ))}
             </div>
-          </div>
-        </section>
+          </TabsContent>
+           <TabsContent value="new" className="py-6">
+            <p className="text-center text-muted-foreground">New games will be shown here.</p>
+          </TabsContent>
+           <TabsContent value="categories" className="py-6">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+              {categories.map(category => (
+                <div key={category} className="bg-card p-4 rounded-lg text-center font-semibold hover:bg-accent cursor-pointer">
+                  {category}
+                </div>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
       <MadeWithDyad />
     </div>
