@@ -1,12 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Star } from "lucide-react";
 
 interface GameCardProps {
   game: {
@@ -14,6 +7,7 @@ interface GameCardProps {
     developer: string;
     price: number | string;
     imageUrl: string;
+    rating?: number;
   };
 }
 
@@ -28,27 +22,26 @@ const GameCard = ({ game }: GameCardProps) => {
       : game.price;
 
   return (
-    <Card className="w-full flex flex-col">
-      <CardHeader>
-        <CardTitle>{game.title}</CardTitle>
-      </CardHeader>
-      <CardContent className="flex-grow">
-        <Link to={gameUrl}>
-          <img
-            src={game.imageUrl}
-            alt={game.title}
-            className="w-full h-48 object-cover rounded-md mb-4 hover:opacity-80 transition-opacity"
-          />
-        </Link>
+    <Link to={gameUrl} className="w-full space-y-2 group">
+      <div className="overflow-hidden rounded-lg aspect-square">
+        <img
+          src={game.imageUrl}
+          alt={game.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="font-semibold truncate">{game.title}</p>
         <p className="text-sm text-muted-foreground">{game.developer}</p>
-      </CardContent>
-      <CardFooter className="flex justify-between items-center mt-auto">
-        <p className="font-semibold">{displayPrice}</p>
-        <Button asChild>
-          <Link to={gameUrl}>View Game</Link>
-        </Button>
-      </CardFooter>
-    </Card>
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+          <span>{game.rating?.toFixed(1) || "New"}</span>
+          {game.rating && <Star className="w-3 h-3 fill-current" />}
+          <span className="ml-auto font-semibold text-foreground">
+            {displayPrice}
+          </span>
+        </div>
+      </div>
+    </Link>
   );
 };
 
