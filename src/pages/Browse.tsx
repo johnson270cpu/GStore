@@ -11,37 +11,37 @@ const allGames = [
     title: "Cybernetic Horizon",
     developer: "SynthCore Studios",
     price: 29.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/400x400/6366f1/white?text=Cybernetic",
   },
   {
     title: "Mystic Forest",
     developer: "Enchanted Games",
     price: 19.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/400x400/10b981/white?text=Mystic",
   },
   {
     title: "Galaxy Racers",
     developer: "Stellar Interactive",
     price: 0,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/400x400/f97316/white?text=Galaxy",
   },
   {
     title: "Dungeon Depths",
     developer: "PixelForge",
     price: 9.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/400x400/be123c/white?text=Dungeon",
   },
   {
     title: "Space Frontiers",
     developer: "Cosmic Creations",
     price: 24.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/400x400/14b8a6/white?text=Space",
   },
   {
     title: "Realm of Shadows",
     developer: "Arcane Arts",
     price: 14.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/400x400/4f46e5/white?text=Realm",
   },
 ];
 

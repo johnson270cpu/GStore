@@ -20,7 +20,7 @@ const allGames = [
     title: "Cybernetic Horizon",
     developer: "SynthCore Studios",
     price: 29.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/600x400/6366f1/white?text=Cybernetic",
     description:
       "A fast-paced cyberpunk shooter set in a dystopian future. Explore the neon-lit streets of Neo-Kyoto and uncover a corporate conspiracy.",
   },
@@ -28,7 +28,7 @@ const allGames = [
     title: "Mystic Forest",
     developer: "Enchanted Games",
     price: 19.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/600x400/10b981/white?text=Mystic",
     description:
       "An atmospheric adventure game where you play as a forest spirit. Solve puzzles, meet whimsical creatures, and restore balance to the ancient woods.",
   },
@@ -36,7 +36,7 @@ const allGames = [
     title: "Galaxy Racers",
     developer: "Stellar Interactive",
     price: 0,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/600x400/f97316/white?text=Galaxy",
     description:
       "A high-speed, anti-gravity racing game set across the galaxy. Compete against other pilots on exotic tracks and upgrade your ship to become the champion.",
   },
@@ -44,7 +44,7 @@ const allGames = [
     title: "Dungeon Depths",
     developer: "PixelForge",
     price: 9.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/600x400/be123c/white?text=Dungeon",
     description:
       "A classic roguelike dungeon crawler. Fight monsters, collect loot, and see how deep you can go in an ever-changing dungeon.",
   },
@@ -52,7 +52,7 @@ const allGames = [
     title: "Space Frontiers",
     developer: "Cosmic Creations",
     price: 24.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/600x400/14b8a6/white?text=Space",
     description:
       "Explore a vast, procedurally generated galaxy in this open-world space simulation. Trade, fight, and build your empire among the stars.",
   },
@@ -60,7 +60,7 @@ const allGames = [
     title: "Realm of Shadows",
     developer: "Arcane Arts",
     price: 14.99,
-    imageUrl: "/placeholder.svg",
+    imageUrl: "https://placehold.co/600x400/4f46e5/white?text=Realm",
     description:
       "A stealth-action game where you play as an assassin in a dark fantasy world. Use shadows and magic to eliminate your targets.",
   },
