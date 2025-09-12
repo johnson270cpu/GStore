@@ -30,14 +30,16 @@ import {
 } from "@/components/ui/select";
 import Header from "@/components/Header";
 
-const MAX_FILE_SIZE = 5000000; // 5MB
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
-const ACCEPTED_APK_TYPES = ["application/vnd.android.package-archive"];
+const gameCategories = [
+  "Action",
+  "Adventure",
+  "Role-Playing",
+  "Sports",
+  "Racing",
+  "Card",
+  "Board",
+  "Kids",
+] as const;
 
 const formSchema = z
   .object({
@@ -45,6 +47,7 @@ const formSchema = z
     description: z
       .string()
       .min(10, { message: "Description must be at least 10 characters." }),
+    category: z.enum(gameCategories),
     price: z.coerce.number().min(0, { message: "Price cannot be negative." }),
     paymentMethod: z.string().optional(),
     paymentAccountId: z.string().optional(),
@@ -115,19 +118,48 @@ const UploadGame = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="grid gap-6"
               >
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Game Title</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Your amazing game" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Game Title</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Your amazing game" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Category</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a category" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {gameCategories.map((category) => (
+                              <SelectItem key={category} value={category}>
+                                {category}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <FormField
                   control={form.control}
                   name="description"
