@@ -94,11 +94,15 @@ const GameDetails = () => {
   };
 
   const handleInstall = () => {
-    // In a real app, you'd link to the actual Play Store URL
-    const packageName = `com.${game.developer
-      .toLowerCase()
-      .replace(/\s+/g, "")}.${game.title.toLowerCase().replace(/\s+/g, "")}`;
-    alert(`Redirecting to Play Store: play.google.com/store/apps/details?id=${packageName}`);
+    // This simulates a direct APK download.
+    // In a real app, this URL would point to the actual file in cloud storage.
+    const link = document.createElement("a");
+    link.href = `/api/download/${game.title.replace(/\s+/g, "-")}.apk`;
+    link.setAttribute("download", `${game.title}.apk`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    alert(`Downloading ${game.title}.apk... Please check your browser's download manager.`);
   };
 
   return (
