@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Gamepad2 } from "lucide-react";
+import { Gamepad2, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
@@ -29,6 +29,12 @@ const Header = () => {
         </Button>
         <Button size="sm" asChild>
           <Link to="/signup">Sign Up</Link>
+        </Button>
+        <Button variant="ghost" size="icon" asChild>
+          <Link to="/profile-settings">
+            <User className="h-5 w-5" />
+            <span className="sr-only">Profile Settings</span>
+          </Link>
         </Button>
       </nav>
     </header>
