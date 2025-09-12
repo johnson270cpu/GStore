@@ -13,6 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CreditCard, Wallet, Download } from "lucide-react";
+import PaymentModal from "@/components/PaymentModal";
 
 // Mock data - in a real app, this would come from an API
 const allGames = [
@@ -69,6 +70,10 @@ const allGames = [
 const GameDetails = () => {
   const { title } = useParams();
   const [isPurchased, setIsPurchased] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"Card" | "PayPal">(
+    "Card"
+  );
 
   const game = allGames.find(
     (g) => g.title.toLowerCase().replace(/\s+/g, "-") === title
@@ -78,8 +83,13 @@ const GameDetails = () => {
     return <div>Game not found</div>;
   }
 
-  const handlePurchase = () => {
-    // In a real app, this would be triggered by a payment provider's callback
+  const handlePurchase = (method: "Card" | "PayPal") => {
+    setPaymentMethod(method);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmPayment = () => {
+    setIsModalOpen(false);
     setIsPurchased(true);
   };
 
@@ -88,79 +98,92 @@ const GameDetails = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1 container py-12">
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <Carousel className="w-full">
-              <CarouselContent>
-                {Array.from({ length: 3 }).map((_, index) => (
-                  <CarouselItem key={index}>
-                    <div className="p-1">
-                      <Card>
-                        <CardContent className="flex aspect-video items-center justify-center p-0 rounded-lg overflow-hidden">
-                          <img
-                            src={game.imageUrl}
-                            alt={`${game.title} screenshot ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </CardContent>
-                      </Card>
+    <>
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-1 container py-12">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <CarouselItem key={index}>
+                      <div className="p-1">
+                        <Card>
+                          <CardContent className="flex aspect-video items-center justify-center p-0 rounded-lg overflow-hidden">
+                            <img
+                              src={game.imageUrl}
+                              alt={`${game.title} screenshot ${index + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </div>
+            <div className="flex flex-col gap-4">
+              <h1 className="text-4xl font-bold">{game.title}</h1>
+              <p className="text-lg text-muted-foreground">
+                by {game.developer}
+              </p>
+              <p>{game.description}</p>
+
+              <Separator className="my-4" />
+
+              {game.price > 0 ? (
+                isPurchased ? (
+                  <Button size="lg" onClick={handleDownload}>
+                    <Download className="mr-2 h-5 w-5" /> Download Game
+                  </Button>
+                ) : (
+                  <Card className="p-6">
+                    <h2 className="text-2xl font-bold mb-4">
+                      Buy Now: ${game.price.toFixed(2)}
+                    </h2>
+                    <div className="flex flex-col gap-3">
+                      <Button
+                        size="lg"
+                        className="w-full"
+                        onClick={() => handlePurchase("Card")}
+                      >
+                        <CreditCard className="mr-2 h-5 w-5" /> Pay with Card
+                      </Button>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => handlePurchase("PayPal")}
+                      >
+                        <Wallet className="mr-2 h-5 w-5" /> Pay with PayPal
+                      </Button>
                     </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
-          <div className="flex flex-col gap-4">
-            <h1 className="text-4xl font-bold">{game.title}</h1>
-            <p className="text-lg text-muted-foreground">by {game.developer}</p>
-            <p>{game.description}</p>
-
-            <Separator className="my-4" />
-
-            {game.price > 0 ? (
-              isPurchased ? (
-                <Button size="lg" onClick={handleDownload}>
-                  <Download className="mr-2 h-5 w-5" /> Download Game
-                </Button>
+                  </Card>
+                )
               ) : (
-                <Card className="p-6">
-                  <h2 className="text-2xl font-bold mb-4">
-                    Buy Now: ${game.price.toFixed(2)}
-                  </h2>
-                  <div className="flex flex-col gap-3">
-                    <Button
-                      size="lg"
-                      className="w-full"
-                      onClick={handlePurchase}
-                    >
-                      <CreditCard className="mr-2 h-5 w-5" /> Pay with Card
-                    </Button>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="w-full"
-                      onClick={handlePurchase}
-                    >
-                      <Wallet className="mr-2 h-5 w-5" /> Pay with PayPal
-                    </Button>
-                  </div>
-                </Card>
-              )
-            ) : (
-              <Button size="lg" onClick={handleDownload}>
-                <Download className="mr-2 h-5 w-5" /> Download for Free
-              </Button>
-            )}
+                <Button size="lg" onClick={handleDownload}>
+                  <Download className="mr-2 h-5 w-5" /> Download for Free
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-      </main>
-      <MadeWithDyad />
-    </div>
+        </main>
+        <MadeWithDyad />
+      </div>
+      {isModalOpen && (
+        <PaymentModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleConfirmPayment}
+          paymentMethod={paymentMethod}
+          price={game.price}
+        />
+      )}
+    </>
   );
 };
 
