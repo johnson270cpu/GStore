@@ -6,25 +6,25 @@ const featuredGames = [
   {
     title: "Cybernetic Horizon",
     developer: "SynthCore Studios",
-    price: "$29.99",
+    price: 29.99,
     imageUrl: "/placeholder.svg",
   },
   {
     title: "Mystic Forest",
     developer: "Enchanted Games",
-    price: "$19.99",
+    price: 19.99,
     imageUrl: "/placeholder.svg",
   },
   {
     title: "Galaxy Racers",
     developer: "Stellar Interactive",
-    price: "Free",
+    price: 0,
     imageUrl: "/placeholder.svg",
   },
   {
     title: "Dungeon Depths",
     developer: "PixelForge",
-    price: "$9.99",
+    price: 9.99,
     imageUrl: "/placeholder.svg",
   },
 ];
