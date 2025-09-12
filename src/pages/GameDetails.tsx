@@ -12,7 +12,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { CreditCard, Wallet, Download } from "lucide-react";
+import { CreditCard, Wallet } from "lucide-react";
 import PaymentModal from "@/components/PaymentModal";
 
 // Mock data - in a real app, this would come from an API
@@ -93,8 +93,12 @@ const GameDetails = () => {
     setIsPurchased(true);
   };
 
-  const handleDownload = () => {
-    alert(`Downloading ${game.title}...`);
+  const handleInstall = () => {
+    // In a real app, you'd link to the actual Play Store URL
+    const packageName = `com.${game.developer
+      .toLowerCase()
+      .replace(/\s+/g, "")}.${game.title.toLowerCase().replace(/\s+/g, "")}`;
+    alert(`Redirecting to Play Store: play.google.com/store/apps/details?id=${packageName}`);
   };
 
   return (
@@ -137,8 +141,8 @@ const GameDetails = () => {
 
               {game.price > 0 ? (
                 isPurchased ? (
-                  <Button size="lg" onClick={handleDownload}>
-                    <Download className="mr-2 h-5 w-5" /> Download Game
+                  <Button size="lg" onClick={handleInstall}>
+                    Install
                   </Button>
                 ) : (
                   <Card className="p-6">
@@ -165,8 +169,8 @@ const GameDetails = () => {
                   </Card>
                 )
               ) : (
-                <Button size="lg" onClick={handleDownload}>
-                  <Download className="mr-2 h-5 w-5" /> Download for Free
+                <Button size="lg" onClick={handleInstall}>
+                  Install for Free
                 </Button>
               )}
             </div>
