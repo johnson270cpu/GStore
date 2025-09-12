@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import Header from "@/components/Header";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import {
@@ -11,7 +12,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { CreditCard, Wallet } from "lucide-react";
+import { CreditCard, Wallet, Download } from "lucide-react";
 
 // Mock data - in a real app, this would come from an API
 const allGames = [
@@ -67,6 +68,8 @@ const allGames = [
 
 const GameDetails = () => {
   const { title } = useParams();
+  const [isPurchased, setIsPurchased] = useState(false);
+
   const game = allGames.find(
     (g) => g.title.toLowerCase().replace(/\s+/g, "-") === title
   );
@@ -74,6 +77,15 @@ const GameDetails = () => {
   if (!game) {
     return <div>Game not found</div>;
   }
+
+  const handlePurchase = () => {
+    // In a real app, this would be triggered by a payment provider's callback
+    setIsPurchased(true);
+  };
+
+  const handleDownload = () => {
+    alert(`Downloading ${game.title}...`);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -111,21 +123,38 @@ const GameDetails = () => {
             <Separator className="my-4" />
 
             {game.price > 0 ? (
-              <Card className="p-6">
-                <h2 className="text-2xl font-bold mb-4">
-                  Buy Now: ${game.price.toFixed(2)}
-                </h2>
-                <div className="flex flex-col gap-3">
-                  <Button size="lg" className="w-full">
-                    <CreditCard className="mr-2 h-5 w-5" /> Pay with Card
-                  </Button>
-                  <Button size="lg" variant="outline" className="w-full">
-                    <Wallet className="mr-2 h-5 w-5" /> Pay with PayPal
-                  </Button>
-                </div>
-              </Card>
+              isPurchased ? (
+                <Button size="lg" onClick={handleDownload}>
+                  <Download className="mr-2 h-5 w-5" /> Download Game
+                </Button>
+              ) : (
+                <Card className="p-6">
+                  <h2 className="text-2xl font-bold mb-4">
+                    Buy Now: ${game.price.toFixed(2)}
+                  </h2>
+                  <div className="flex flex-col gap-3">
+                    <Button
+                      size="lg"
+                      className="w-full"
+                      onClick={handlePurchase}
+                    >
+                      <CreditCard className="mr-2 h-5 w-5" /> Pay with Card
+                    </Button>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="w-full"
+                      onClick={handlePurchase}
+                    >
+                      <Wallet className="mr-2 h-5 w-5" /> Pay with PayPal
+                    </Button>
+                  </div>
+                </Card>
+              )
             ) : (
-              <Button size="lg">Download for Free</Button>
+              <Button size="lg" onClick={handleDownload}>
+                <Download className="mr-2 h-5 w-5" /> Download for Free
+              </Button>
             )}
           </div>
         </div>
