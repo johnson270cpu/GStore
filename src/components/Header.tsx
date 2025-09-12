@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Gamepad2, User } from "lucide-react";
+import { Gamepad2, User, Users } from "lucide-react"; // Added Users icon
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
@@ -23,6 +23,12 @@ const Header = () => {
           className="text-sm font-medium hover:underline underline-offset-4"
         >
           Upload Game
+        </Link>
+        <Link
+          to="/community"
+          className="text-sm font-medium hover:underline underline-offset-4 flex items-center gap-1"
+        >
+          <Users className="h-4 w-4" /> Community
         </Link>
         <Button variant="outline" size="sm" asChild>
           <Link to="/login">Login</Link>

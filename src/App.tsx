@@ -12,6 +12,8 @@ import Browse from "./pages/Browse";
 import GameDetails from "./pages/GameDetails";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProfileSettings from "./pages/ProfileSettings";
+import DeveloperCommunity from "./pages/DeveloperCommunity";
+import DiscussionDetail from "./pages/DiscussionDetail";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,8 @@ const App = () => (
           <Route path="/game/:title" element={<GameDetails />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/profile-settings" element={<ProfileSettings />} />
+          <Route path="/community" element={<DeveloperCommunity />} />
+          <Route path="/community/discussion/:id" element={<DiscussionDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
