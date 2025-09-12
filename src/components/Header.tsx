@@ -17,10 +17,10 @@ const Header = () => {
           Browse
         </Link>
         <Link
-          to="/developers"
+          to="/upload-game"
           className="text-sm font-medium hover:underline underline-offset-4"
         >
-          For Developers
+          Upload Game
         </Link>
         <Button variant="outline" size="sm" asChild>
           <Link to="/login">Login</Link>
