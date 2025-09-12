@@ -9,7 +9,7 @@ const Header = () => {
         <Gamepad2 className="h-6 w-6" />
         <span className="ml-2 font-bold text-lg">GStore</span>
       </Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6">
+      <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
         <Link
           to="/browse"
           className="text-sm font-medium hover:underline underline-offset-4"
@@ -22,10 +22,12 @@ const Header = () => {
         >
           For Developers
         </Link>
-        <Button variant="outline" size="sm">
-          Login
+        <Button variant="outline" size="sm" asChild>
+          <Link to="/login">Login</Link>
         </Button>
-        <Button size="sm">Sign Up</Button>
+        <Button size="sm" asChild>
+          <Link to="/signup">Sign Up</Link>
+        </Button>
       </nav>
     </header>
   );
