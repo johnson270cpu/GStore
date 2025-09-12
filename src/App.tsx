@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import UploadGame from "./pages/UploadGame";
 import Browse from "./pages/Browse";
 import GameDetails from "./pages/GameDetails";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/upload-game" element={<UploadGame />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/game/:title" element={<GameDetails />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
