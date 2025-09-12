@@ -21,12 +21,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters." }),
+  accountType: z.enum(["gamer", "developer"], {
+    required_error: "You need to select an account type.",
+  }),
 });
 
 const SignUp = () => {
@@ -35,11 +39,12 @@ const SignUp = () => {
     defaultValues: {
       email: "",
       password: "",
+      accountType: "gamer",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // TODO: Implement Supabase sign up
+    // TODO: Implement Supabase sign up with role
     console.log(values);
   }
 
@@ -49,12 +54,44 @@ const SignUp = () => {
         <CardHeader>
           <CardTitle className="text-2xl">Sign Up</CardTitle>
           <CardDescription>
-            Enter your information to create an account
+            Choose your account type and create your GStore account.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+              <FormField
+                control={form.control}
+                name="accountType"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>I am a...</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex space-x-4"
+                      >
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="gamer" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Gamer</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="developer" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Developer
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -83,9 +120,6 @@ const SignUp = () => {
               />
               <Button type="submit" className="w-full">
                 Create an account
-              </Button>
-              <Button variant="outline" className="w-full" type="button">
-                Sign up with Google
               </Button>
             </form>
           </Form>
