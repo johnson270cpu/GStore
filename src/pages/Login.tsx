@@ -54,6 +54,19 @@ const Login = () => {
     }
   }
 
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin, // Redirects back to your app's root
+      },
+    });
+
+    if (error) {
+      showError(error.message);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="mx-auto max-w-sm">
@@ -103,7 +116,7 @@ const Login = () => {
               <Button type="submit" className="w-full">
                 Login
               </Button>
-              <Button variant="outline" className="w-full" type="button">
+              <Button variant="outline" className="w-full" type="button" onClick={handleGoogleLogin}>
                 Login with Google
               </Button>
             </form>

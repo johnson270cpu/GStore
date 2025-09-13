@@ -66,6 +66,23 @@ const SignUp = () => {
     }
   }
 
+  const handleGoogleSignUp = async () => {
+    const accountType = form.getValues("accountType"); // Get selected account type
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin, // Redirects back to your app's root
+        queryParams: {
+          account_type: accountType, // Pass account type to be picked up by handle_new_user
+        },
+      },
+    });
+
+    if (error) {
+      showError(error.message);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="mx-auto max-w-sm">
@@ -138,6 +155,9 @@ const SignUp = () => {
               />
               <Button type="submit" className="w-full">
                 Create an account
+              </Button>
+              <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignUp}>
+                Sign up with Google
               </Button>
             </form>
           </Form>
