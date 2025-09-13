@@ -15,6 +15,7 @@ import ProfileSettings from "./pages/ProfileSettings";
 import DeveloperCommunity from "./pages/DeveloperCommunity";
 import DiscussionDetail from "./pages/DiscussionDetail";
 import CategoryPage from "./pages/CategoryPage";
+import { SessionContextProvider } from "./contexts/SessionContext";
 
 const queryClient = new QueryClient();
 
@@ -24,21 +25,23 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/upload-game" element={<UploadGame />} />
-          <Route path="/browse" element={<Browse />} />
-          <Route path="/game/:title" element={<GameDetails />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/profile-settings" element={<ProfileSettings />} />
-          <Route path="/community" element={<DeveloperCommunity />} />
-          <Route path="/community/discussion/:id" element={<DiscussionDetail />} />
-          <Route path="/category/:categoryName" element={<CategoryPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <SessionContextProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/upload-game" element={<UploadGame />} />
+            <Route path="/browse" element={<Browse />} />
+            <Route path="/game/:title" element={<GameDetails />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/profile-settings" element={<ProfileSettings />} />
+            <Route path="/community" element={<DeveloperCommunity />} />
+            <Route path="/community/discussion/:id" element={<DiscussionDetail />} />
+            <Route path="/category/:categoryName" element={<CategoryPage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </SessionContextProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { supabase } from "@/integrations/supabase/client";
+import { showSuccess, showError } from "@/utils/toast";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -34,6 +36,7 @@ const formSchema = z.object({
 });
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,9 +46,24 @@ const SignUp = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // TODO: Implement Supabase sign up with role
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { email, password, accountType } = values;
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          account_type: accountType,
+        },
+      },
+    });
+
+    if (error) {
+      showError(error.message);
+    } else {
+      showSuccess("Sign up successful! Please check your email to confirm your account.");
+      navigate("/login");
+    }
   }
 
   return (

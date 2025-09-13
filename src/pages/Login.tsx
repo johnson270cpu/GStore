@@ -2,8 +2,8 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Link } from "react-router-dom";
+import *s z from "zod";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,6 +21,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/integrations/supabase/client";
+import { showSuccess, showError } from "@/utils/toast";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -28,6 +30,7 @@ const formSchema = z.object({
 });
 
 const Login = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,9 +39,19 @@ const Login = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // TODO: Implement Supabase login
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { email, password } = values;
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      showError(error.message);
+    } else {
+      showSuccess("Logged in successfully!");
+      navigate("/"); // Redirect to home or dashboard after login
+    }
   }
 
   return (
