@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CreditCard, Wallet } from "lucide-react";
+import { showSuccess, showError } from "@/utils/toast";
 
 const cardSchema = z.object({
   cardNumber: z.string().regex(/^\d{16}$/, "Must be 16 digits"),
@@ -58,8 +59,20 @@ const PaymentModal = ({
       : { email: "" },
   });
 
-  const handleFormSubmit = () => {
-    onSubmit();
+  const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
+    // Simulate calling the Supabase Edge Function for payment processing
+    try {
+      // In a real scenario, you'd invoke the Edge Function like this:
+      // const { data, error } = await supabase.functions.invoke('process-payment', {
+      //   body: { paymentMethod, amount: price, token: values },
+      // });
+
+      // For now, we'll simulate success
+      showSuccess(`Payment of $${price.toFixed(2)} processed via ${paymentMethod}!`);
+      onSubmit(); // Proceed with simulated purchase success
+    } catch (error: any) {
+      showError(`Payment failed: ${error.message || 'Unknown error'}`);
+    }
   };
 
   return (
