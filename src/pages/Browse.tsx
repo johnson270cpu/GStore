@@ -6,6 +6,7 @@ import GameCard from "@/components/GameCard";
 import { Input } from "@/components/ui/input";
 import { MadeWithDyad } from "@/components/made-with-dyad";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Link } from "react-router-dom";
 
 const allGames = [
   {
@@ -144,9 +145,13 @@ const Browse = () => {
            <TabsContent value="categories" className="py-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
               {categories.map(category => (
-                <div key={category} className="bg-card p-4 rounded-lg text-center font-semibold hover:bg-accent cursor-pointer">
+                <Link
+                  to={`/category/${category.toLowerCase()}`}
+                  key={category}
+                  className="bg-card p-4 rounded-lg text-center font-semibold hover:bg-accent cursor-pointer transition-colors"
+                >
                   {category}
-                </div>
+                </Link>
               ))}
             </div>
           </TabsContent>

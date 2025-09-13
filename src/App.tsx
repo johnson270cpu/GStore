@@ -14,6 +14,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProfileSettings from "./pages/ProfileSettings";
 import DeveloperCommunity from "./pages/DeveloperCommunity";
 import DiscussionDetail from "./pages/DiscussionDetail";
+import CategoryPage from "./pages/CategoryPage";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/profile-settings" element={<ProfileSettings />} />
           <Route path="/community" element={<DeveloperCommunity />} />
           <Route path="/community/discussion/:id" element={<DiscussionDetail />} />
+          <Route path="/category/:categoryName" element={<CategoryPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
